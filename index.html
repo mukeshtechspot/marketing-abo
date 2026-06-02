@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ABO Tribe — App Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orb o1"></div>
+<div class="bg-orb o2"></div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-logo">ABO<span>TRIBE</span></div>
+  <div class="hdr-sub">Select a role to explore the app</div>
+</div>
+
+<!-- ROLE TABS -->
+<div class="role-tabs" id="role-tabs">
+  <button class="rtab active" data-role="owner"   onclick="selectRole('owner')">👑 Owner</button>
+  <button class="rtab"        data-role="dj"       onclick="selectRole('dj')">🎧 DJ</button>
+  <button class="rtab"        data-role="event"    onclick="selectRole('event')">🎉 Eventier</button>
+  <button class="rtab"        data-role="bouncer"  onclick="selectRole('bouncer')">🚪 Entry</button>
+  <button class="rtab"        data-role="waiter"   onclick="selectRole('waiter')">🍽 Waiter</button>
+  <button class="rtab"        data-role="valet"    onclick="selectRole('valet')">🚗 Valet</button>
+</div>
+
+<!-- MAIN SHOWCASE -->
+<div class="showcase">
+
+  <!-- LEFT CALLOUT -->
+  <div class="side-col left">
+    <div class="callout" id="lc1"></div>
+    <div class="callout" id="lc2"></div>
+  </div>
+
+  <!-- PHONE -->
+  <div class="phone-zone">
+    <div class="phone-glow" id="pglow"></div>
+    <div class="phone" id="phone">
+      <div class="ph-island"></div>
+      <div class="ph-bar"><span id="ph-time">9:41</span><span class="ph-icons">▐▌ 🔋</span></div>
+      <div class="ph-screen-wrap" id="ph-wrap">
+        <!-- Screen content injected by JS -->
+      </div>
+    </div>
+    <!-- Phone bottom: arrows + dots + label -->
+    <div class="phone-nav-row">
+      <button class="scr-arr left"  onclick="prevScreen()">&#8249;</button>
+      <div class="scr-dots" id="scr-dots"></div>
+      <button class="scr-arr right" onclick="nextScreen()">&#8250;</button>
+    </div>
+    <div class="scr-label" id="scr-label"></div>
+  </div>
+
+  <!-- RIGHT CALLOUT -->
+  <div class="side-col right">
+    <div class="callout" id="rc1"></div>
+    <div class="callout" id="rc2"></div>
+  </div>
+
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="prog"><div class="prog-f" id="prog-f"></div></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span id="t-i"></span>
+  <div><div id="t-t"></div><div id="t-s"></div></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
