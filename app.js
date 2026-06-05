@@ -897,35 +897,45 @@ event: Array.from({length:10},(_,i)=>({
   }
 })),
 
-waiter: Array.from({length:10},(_,i)=>({
-  label:['My Tables','Active Orders','New Order','KOT','Bill & Pay','Guest Requests','Tips','Special Req.','Reservations','Shift End'][i],
-  callouts:[{id:'lc1',tag:'TABLES',val:'6',title:'My Section',sub:'Tables 4–9 assigned',hi:true},{id:'lc2',tag:'ORDERS',val:`${3+i}`,title:'Pending',sub:'Need attention now'},{id:'rc1',tag:'TIPS',val:'⭐ 4.8',title:'My Rating',sub:'Guests love your service',hi:true},{id:'rc2',tag:'SCREEN',val:`${i+1}/10`,title:'Waiter Screen',sub:`Feature ${i+1} of 10`}],
-  html:`<div class="sh"><span class="sl">ABO<b>TRIBE</b></span><span class="sc blue">🍽 Waiter</span></div>
-    <div class="shero" style="background:linear-gradient(135deg,#001428,#0C0C0C)">
-      <div class="sh-lbl" style="color:#64B5F6">WAITER · ${'MY TABLES,ORDERS,NEW ORDER,KOT,BILL,REQUESTS,TIPS,SPECIAL,RESERVATIONS,SHIFT END'.split(',')[i]}</div>
-      <div class="sh-title">Section: Tables 4–9</div>
-      <div class="sh-sub">22 Guests · ABO Bar CBE</div>
-    </div>
-    <div class="sbody">
-      <div class="srow">
-        <div class="sbox b"><div class="sn blue">6</div><div class="sl2">My Tables</div></div>
-        <div class="sbox"><div class="sn" id="wo-n${i}">0</div><div class="sl2">Orders</div></div>
-        <div class="sbox g"><div class="sn grn">4.8⭐</div><div class="sl2">Rating</div></div>
+waiter: Array.from({length:10},(_,i)=>{
+  const activeIdx = [1, 0, 2, 0, 0, 0, 3, 0, 1, 0][i];
+  const navHTML = `
+    <div class="snav blue">
+      <div class="ni${activeIdx === 0 ? ' on' : ''}">🏠<span>Dashboard</span></div>
+      <div class="ni${activeIdx === 1 ? ' on' : ''}">🪑<span>Tables</span></div>
+      <div class="ni${activeIdx === 2 ? ' on' : ''}">📷<span>Scan</span></div>
+      <div class="ni${activeIdx === 3 ? ' on' : ''}">🏷<span>Offers</span></div>
+    </div>`;
+  return {
+    label:['My Tables','Active Orders','New Order','KOT','Bill & Pay','Guest Requests','Tips','Special Req.','Reservations','Shift End'][i],
+    callouts:[{id:'lc1',tag:'TABLES',val:'6',title:'My Section',sub:'Tables 4–9 assigned',hi:true},{id:'lc2',tag:'ORDERS',val:`${3+i}`,title:'Pending',sub:'Need attention now'},{id:'rc1',tag:'TIPS',val:'⭐ 4.8',title:'My Rating',sub:'Guests love your service',hi:true},{id:'rc2',tag:'SCREEN',val:`${i+1}/10`,title:'Waiter Screen',sub:`Feature ${i+1} of 10`}],
+    html:`<div class="sh"><span class="sl">ABO<b>TRIBE</b></span><span class="sc blue">🍽 Waiter</span></div>
+      <div class="shero" style="background:linear-gradient(135deg,#001428,#0C0C0C)">
+        <div class="sh-lbl" style="color:#64B5F6">WAITER · ${'MY TABLES,ORDERS,NEW ORDER,KOT,BILL,REQUESTS,TIPS,SPECIAL,RESERVATIONS,SHIFT END'.split(',')[i]}</div>
+        <div class="sh-title">Section: Tables 4–9</div>
+        <div class="sh-sub">22 Guests · ABO Bar CBE</div>
       </div>
-      <div class="tbl-grid">
-        ${[4,5,6,7,8,9].map((n,j)=>`<div class="tbl-cell ${j<3?'busy':j<5?'active':'done'}"><span class="tn">${n}</span>Tbl</div>`).join('')}
-        ${[10,11].map(n=>`<div class="tbl-cell"><span class="tn">${n}</span>Empty</div>`).join('')}
+      <div class="sbody">
+        <div class="srow">
+          <div class="sbox b"><div class="sn blue">6</div><div class="sl2">My Tables</div></div>
+          <div class="sbox"><div class="sn" id="wo-n${i}">0</div><div class="sl2">Orders</div></div>
+          <div class="sbox g"><div class="sn grn">4.8⭐</div><div class="sl2">Rating</div></div>
+        </div>
+        <div class="tbl-grid">
+          ${[4,5,6,7,8,9].map((n,j)=>`<div class="tbl-cell ${j<3?'busy':j<5?'active':'done'}"><span class="tn">${n}</span>Tbl</div>`).join('')}
+          ${[10,11].map(n=>`<div class="tbl-cell"><span class="tn">${n}</span>Empty</div>`).join('')}
+        </div>
+        <div class="slbl">ORDER STATUS</div>
+        <div id="wof-${i}" style="display:flex;flex-direction:column;gap:3px;flex:1;overflow:hidden"></div>
       </div>
-      <div class="slbl">ORDER STATUS</div>
-      <div id="wof-${i}" style="display:flex;flex-direction:column;gap:3px;flex:1;overflow:hidden"></div>
-    </div>
-    <div class="snav blue"><div class="ni on">🏠<span>Home</span></div><div class="ni">🍽<span>Orders</span></div><div class="ni">🪑<span>Tables</span></div><div class="ni">✅<span>Done</span></div></div>`,
-  anim(){ countUp(`wo-n${i}`,3+i,1400);
-    const f=el(`wof-${i}`); if(!f)return;
-    [['🍹','Table 5 · Cocktail Platter — Preparing'],['🍺','Table 7 · Beer Pitcher x2 — Ready! ✅'],['🍽','Table 4 · Fish Tacos x3 — Preparing'],['💳','Table 6 · Bill requested']].forEach((m,j)=>delay(300+j*450,()=>appendFeed(f,m[0],m[1],'var(--blue)')));
-    delay(900,()=>toast('🍽',`Waiter: ${'My Tables,Orders,New Order,KOT,Bill,Requests,Tips,Special,Reservations,Shift End'.split(',')[i]}`,'Table 7 order ready to serve'));
-  }
-})),
+      ${navHTML}`,
+    anim(){ countUp(`wo-n${i}`,3+i,1400);
+      const f=el(`wof-${i}`); if(!f)return;
+      [['🍹','Table 5 · Cocktail Platter — Preparing'],['🍺','Table 7 · Beer Pitcher x2 — Ready! ✅'],['🍽','Table 4 · Fish Tacos x3 — Preparing'],['💳','Table 6 · Bill requested']].forEach((m,j)=>delay(300+j*450,()=>appendFeed(f,m[0],m[1],'var(--blue)')));
+      delay(900,()=>toast('🍽',`Waiter: ${'My Tables,Orders,New Order,KOT,Bill,Requests,Tips,Special,Reservations,Shift End'.split(',')[i]}`,'Table 7 order ready to serve'));
+    }
+  };
+}),
 
 valet: Array.from({length:10},(_,i)=>({
   label:['Vehicle Queue','Park Vehicle','Slot Map','Return Car','Key Manager','Damage Check','Payment','Stats','Assignments','Shift End'][i],
@@ -1062,12 +1072,58 @@ window.selectRole=function(role){
   document.querySelectorAll('.rtab.active').forEach(t=>{ t.style.background=meta.color; t.style.borderColor=meta.color; });
   document.querySelectorAll('.rtab:not(.active)').forEach(t=>{ t.style.background='none'; t.style.borderColor='transparent'; });
 
+  // Update mobile role selector text and style
+  const mobileSel = el('mobile-role-selector');
+  if (mobileSel) {
+    const roleTextSpan = mobileSel.querySelector('.m-active-role-text');
+    if (roleTextSpan) {
+      const emojiMap = { owner: '👑', dj: '🎧', event: '🎉', bouncer: '🚪', waiter: '🍽', valet: '🚗' };
+      const cleanName = ROLE_META[role].label.replace(' Dashboard', '').replace(' Console', '').replace(' / Bouncer', '').replace(' Driver', '');
+      roleTextSpan.textContent = `${emojiMap[role] || ''} ${cleanName}`;
+    }
+    mobileSel.style.setProperty('--role-color', meta.color);
+  }
+
+  // Update drawer options active state
+  document.querySelectorAll('.drawer-opt').forEach(opt => {
+    const isActive = opt.dataset.role === role;
+    opt.classList.toggle('active', isActive);
+    if (isActive) {
+      opt.style.setProperty('--opt-color', meta.color);
+    } else {
+      opt.style.removeProperty('--opt-color');
+    }
+  });
+
   // Glow
   el('pglow').style.background=meta.glowBg;
 
   renderScreen(role,0);
   startProgress();
   resetAutoScreen();
+};
+
+window.openDrawer = function() {
+  const drawer = el('bottom-drawer');
+  const overlay = el('drawer-overlay');
+  const selector = el('mobile-role-selector');
+  if (drawer) drawer.classList.add('active');
+  if (overlay) overlay.classList.add('active');
+  if (selector) selector.classList.add('active');
+};
+
+window.closeDrawer = function() {
+  const drawer = el('bottom-drawer');
+  const overlay = el('drawer-overlay');
+  const selector = el('mobile-role-selector');
+  if (drawer) drawer.classList.remove('active');
+  if (overlay) overlay.classList.remove('active');
+  if (selector) selector.classList.remove('active');
+};
+
+window.selectRoleMobile = function(role) {
+  window.selectRole(role);
+  window.closeDrawer();
 };
 
 let autoScreenTm=null;

@@ -32,6 +32,12 @@
   <button class="rtab"        data-role="valet"    onclick="selectRole('valet')">🚗 Valet</button>
 </div>
 
+<!-- MOBILE ROLE SELECTOR -->
+<div class="mobile-role-selector" id="mobile-role-selector" onclick="openDrawer()">
+  <span class="m-active-role-text">👑 Owner</span>
+  <span class="m-caret">▾</span>
+</div>
+
 <!-- MAIN SHOWCASE -->
 <div class="showcase">
 
@@ -75,6 +81,42 @@
 <div class="toast" id="toast">
   <span id="t-i"></span>
   <div><div id="t-t"></div><div id="t-s"></div></div>
+</div>
+
+<!-- DRAWER OVERLAY & BOTTOM DRAWER -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="bottom-drawer" id="bottom-drawer">
+  <div class="drawer-handle" onclick="closeDrawer()"></div>
+  <div class="drawer-header">
+    <h3>Select a Role</h3>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-content">
+    <button class="drawer-opt active" data-role="owner" onclick="selectRoleMobile('owner')">
+      <span class="opt-icon">👑</span> Owner
+      <span class="opt-active-dot"></span>
+    </button>
+    <button class="drawer-opt" data-role="dj" onclick="selectRoleMobile('dj')">
+      <span class="opt-icon">🎧</span> DJ
+      <span class="opt-active-dot"></span>
+    </button>
+    <button class="drawer-opt" data-role="event" onclick="selectRoleMobile('event')">
+      <span class="opt-icon">🎉</span> Eventier
+      <span class="opt-active-dot"></span>
+    </button>
+    <button class="drawer-opt" data-role="bouncer" onclick="selectRoleMobile('bouncer')">
+      <span class="opt-icon">🚪</span> Entry
+      <span class="opt-active-dot"></span>
+    </button>
+    <button class="drawer-opt" data-role="waiter" onclick="selectRoleMobile('waiter')">
+      <span class="opt-icon">🍽</span> Waiter
+      <span class="opt-active-dot"></span>
+    </button>
+    <button class="drawer-opt" data-role="valet" onclick="selectRoleMobile('valet')">
+      <span class="opt-icon">🚗</span> Valet
+      <span class="opt-active-dot"></span>
+    </button>
+  </div>
 </div>
 
 <script src="app.js"></script>
